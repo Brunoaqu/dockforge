@@ -32,11 +32,11 @@ ARG PGID=1000
 ENV PGID ${PGID}
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN set -xe; \
-    apt-get update -yqq \
-    groupadd -g ${PGID} dockforge && \
-    useradd -l -u ${PGID} -g dockforge -m dockforge -G docker_env && \
-    usermod -p "*" dockforge -s /bin/bash
+#RUN set -xe; \
+#    apt-get update -yqq \
+#    groupadd -g ${PGID} dockforge && \
+#    useradd -l -u ${PGID} -g dockforge -m dockforge -G docker_env && \
+#    usermod -p "*" dockforge -s /bin/bash
 
 ###########################################################################
 # Final Touch:

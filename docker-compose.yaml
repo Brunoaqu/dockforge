@@ -31,7 +31,6 @@ services:
       - "${WORKSPACE_VITE_PORT}:5173"
     tty: true
     environment:
-      - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
       - DOCKER_HOST=tcp://docker-in-docker:2376
       - DOCKER_TLS_VERIFY=1
       - DOCKER_TLS_CERTDIR=/certs
