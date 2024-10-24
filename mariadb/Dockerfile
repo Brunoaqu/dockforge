@@ -2,7 +2,7 @@
 # Image Setup
 #####################################
 
-ARG MARIADB_VERSION=lates
+ARG MARIADB_VERSION=latest
 FROM mariadb:${MARIADB_VERSION}
 
 LABEL maintainer="Bruno Aquino <bruno.gl.aquino@gmail.com>"

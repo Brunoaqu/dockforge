@@ -8,6 +8,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   mariadb:
     driver: ${VOLUMES_DRIVER}
+  postgres:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -51,6 +53,25 @@ services:
       - backend
     links:
       - docker-in-docker
+
+### PostgreSQL ###########################################
+  postgres:
+    restart: always
+    build:
+      context: ./postgres
+      args:
+        - POSTGRES_VERSION=${POSTGRES_VERSION}
+    volumes:
+      - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
+      - ${POSTGRES_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD={POSTGRES_PASSWORD}
+    networks:
+      - backend
 
 ### RabbitMQ #############################################
   rabbitmq:
