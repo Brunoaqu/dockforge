@@ -24,6 +24,7 @@ services:
         - NPM_FETCH_RETRY_MINTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MINTIMEOUT}
         - NPM_FETCH_RETRY_MAXTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MAXTIMEOUT}
         - INSTALL_NPM_CHECK_UPDATES_CLI={WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI} 
+        - INSTALL_GOLANG={WORKSPACE_INSTALL_GOLANG}
     volumes:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       - docker-in-docker:/certs/client
@@ -37,6 +38,7 @@ services:
       - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
       - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
       - "${WORKSPACE_VITE_PORT}:5173"
+      - "8081:8081"
     tty: true
     environment:
       - DOCKER_HOST=tcp://docker-in-docker:2376
@@ -50,6 +52,24 @@ services:
     links:
       - docker-in-docker
 
+### RabbitMQ #############################################
+  rabbitmq:
+    restart: always
+    build: ./rabbitmq
+    ports:
+      - "${RABBITMQ_NODE_HOST_PORT}:5672"
+      - "${RABBITMQ_MANAGEMENT_HTTP_HOST_PORT}:15672"
+      - "${RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT}:15671"
+      - "${RABBITMQ_WEB_STOMP_HOST_PORT}:15674"
+    privileged: true
+    hostname: dockforge-rabbitmq
+    volumes:
+      - ${DATA_PATH_HOST}/rabbitmq:/var/lib/rabbitmq
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq/management_agent.disable_metrics_collector.conf:/etc/rabbitmq/conf.d/management_agent.disable_metrics_collector.conf
+    networks:
+      - backend
+  
 ### Docker-in-Docker ################################################
   docker-in-docker:
     restart: always

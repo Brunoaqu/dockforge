@@ -86,6 +86,21 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 ;fi
 
 ###########################################################################
+# Golang :
+###########################################################################
+ARG INSTALL_GOLANG=true
+
+RUN if [ ${INSTALL_GOLANG} = true ]; then \
+  curl -o /usr/local/go.tar.gz -L https://go.dev/dl/go1.23.2.linux-amd64.tar.gz && \
+  tar -xfz /usr/local/go.tar.gz -C /usr/local/go \
+;fi 
+
+RUN if [ ${INSTALL_GOLANG} = true]; then \
+  echo "" >> ~/.bashrc && \
+  echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc \
+;fi
+
+###########################################################################
 # Final Touch:
 ###########################################################################
 
