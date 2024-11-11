@@ -68,8 +68,11 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
     && npm config set fetch-retry-factor ${NPM_FETCH_RETRY_FACTOR} \
     && npm config set fetch-retry-mintimeout ${NPM_FETCH_RETRY_MINTIMEOUT} \
     && npm config set fetch-retry-maxtimeout ${NPM_FETCH_RETRY_MAXTIMEOUT} \
+    && corepack enable pnpm \
     && if [ ${INSTALL_NPM_CHECK_UPDATES_CLI} = true ]; then \
     npm install -g npm-check-updates \
+    && if [ ${INSTALL_PNPM} = true ]; then \
+    corepack use pnpm@latest \
     ;fi \
 ;fi
 
@@ -93,7 +96,7 @@ ARG INSTALL_GOLANG=true
 RUN if [ ${INSTALL_GOLANG} = true ]; then \
   curl -o /usr/local/go.tar.gz -L https://go.dev/dl/go1.23.2.linux-amd64.tar.gz && \
   tar -xfz /usr/local/go.tar.gz -C /usr/local/go \
-;fi 
+;fi
 
 RUN if [ ${INSTALL_GOLANG} = true]; then \
   echo "" >> ~/.bashrc && \

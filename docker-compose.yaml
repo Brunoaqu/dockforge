@@ -25,8 +25,9 @@ services:
         - NPM_FETCH_RETRY_FACTOR=${WORKSPACE_NPM_FETCH_RETRY_FACTOR}
         - NPM_FETCH_RETRY_MINTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MINTIMEOUT}
         - NPM_FETCH_RETRY_MAXTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MAXTIMEOUT}
-        - INSTALL_NPM_CHECK_UPDATES_CLI={WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI} 
+        - INSTALL_NPM_CHECK_UPDATES_CLI={WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI}
         - INSTALL_GOLANG={WORKSPACE_INSTALL_GOLANG}
+        - INSTALL_PNPM={WORKPSACE_INSTALL_PNPM}
     volumes:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       - docker-in-docker:/certs/client
@@ -107,7 +108,7 @@ services:
       - ./rabbitmq/management_agent.disable_metrics_collector.conf:/etc/rabbitmq/conf.d/management_agent.disable_metrics_collector.conf
     networks:
       - backend
-  
+
 ### Docker-in-Docker ################################################
   docker-in-docker:
     restart: always
